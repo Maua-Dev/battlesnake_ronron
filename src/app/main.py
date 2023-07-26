@@ -19,10 +19,11 @@ directionQuad = {
 
 
 
-def searchFood(position, food_list):
+def searchFood(position, food_list,blockPosition):
   menor_distancia = 0
   foodTarget = food_list[0]
   x, y = position['x'], position['y']
+  blockX,blockY = blockPosition['x'],blockPosition['y']
   for ponto in food_list:
       x2, y2 = ponto['x'], ponto['y']
       distancia = math.sqrt((x2 - x)**2 + (y2 - y)**2)
@@ -31,7 +32,7 @@ def searchFood(position, food_list):
           foodTarget = ponto
   x1,y1 = foodTarget['x'],foodTarget['y']
 
-  if(abs(x1 - x) == 1 or abs(y1 - y) == 1):
+  if((abs(x1 - x) == 1 and y1 == y) or (abs(y1 - y) == 1 and x1 == x)):
     if(x1 - x == 1):
       return ['right']
     elif(x1 - x == -1):
@@ -97,6 +98,7 @@ def move(request: dict):
     if(move is None):
       move = 'up'
     newHead = funcMoviments[move](request['you']['head'])
+  print(move)
   return move
 
 
