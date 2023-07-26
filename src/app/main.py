@@ -22,10 +22,14 @@ def body(position,request):
     return True
   return False
 
+def wall(position):
+  if (position['x'] < 0 or position['x'] > 10 or position['y'] < 0 or position['y'] > 10):
+    return True
+  return False
 def move(request: dict):
   moviment = moviments[randint(0, 3)]
   newHead = funcMoviments[moviment](request['you']['head'])
-  while body(newHead,request):
+  while body(newHead,request) or wall(newHead):
     moviment = moviments[randint(0, 3)]
     newHead = funcMoviments[moviment](request['you']['head'])
   return moviment
