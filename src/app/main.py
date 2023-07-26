@@ -95,7 +95,7 @@ def move(request: dict):
   print(moviments)
   move = moviments.pop(randint(0, len(moviments)-1))
   newHead = funcMoviments[move](request['you']['head'])
-  if(body(newHead,request)):
+  if(body(newHead,request) or wall(newHead) or enemiesBody(newHead,request)):
     if(len(moviments) == 0):
       moviments = [
         "up", # y+1
