@@ -21,7 +21,10 @@ def wall(position):
     return True
   return False
 def enemiesBody(position,request):
-  if (position in request['board']['snakes']['body'].pop()):
+  snakes = []
+  for snake in request['board']['snakes']:
+     snakes = snakes + snake['body'].pop()
+  if (position in snakes):
     return True
   return False
 
