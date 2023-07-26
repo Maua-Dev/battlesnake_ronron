@@ -62,7 +62,9 @@ def searchFood(position, food_list,blockPosition):
     return ['up','right','down','left']
 
 def body(position,request):
-  if (position in request['you']['body']):
+  bodies = request['you']['body'].copy()
+  bodies.pop()
+  if (position in bodies):
     return True
   return False
 
@@ -93,13 +95,15 @@ def move(request: dict):
   print(moviments)
   move = moviments.pop(randint(0, len(moviments)-1))
   newHead = funcMoviments[move](request['you']['head'])
-  if(body(newHead,request) and len(moviments) == 0):
-    moviments = [
-      "up", # y+1
-      "down", # y-1
-      "left", # x-1
-      "right" # x+1
-    ].remove(move)
+  if(body(newHead,request)):
+    if(len(moviments) == 0):
+      moviments = [
+        "up", # y+1
+        "down", # y-1
+        "left", # x-1
+        "right" # x+1
+      ].remove(move)
+    
     move = moviments.pop(randint(0, len(moviments)-1))
   while len(moviments) > 0 and (body(newHead,request) or wall(newHead) or enemiesBody(newHead,request)):
     move = moviments.pop(randint(0, len(moviments)-1))
