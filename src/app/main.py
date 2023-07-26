@@ -93,7 +93,7 @@ def move(request: dict):
   print(moviments)
   move = moviments.pop(randint(0, len(moviments)-1))
   newHead = funcMoviments[move](request['you']['head'])
-  if(body(newHead,request) and len(moviments) > 0):
+  if(body(newHead,request) and len(moviments) == 0):
     moviments = [
       "up", # y+1
       "down", # y-1
