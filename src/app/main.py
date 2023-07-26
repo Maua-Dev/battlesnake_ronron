@@ -40,18 +40,25 @@ def searchFood(position, food_list):
       return ['up']
     elif(y1 - y == -1):
       return ['down']
-
+  if (x1 == x and y1 > y):
+    return ['up']
+  elif(x1 == x and y1 < y):
+    return ['down']
+  elif(x1 > x and y1 == y):
+    return ['right']
+  elif(x1 < x and y1 == y):
+    return ['left']
+  
   if(x1 > x and y1 > y):
-    quad = directionQuad['Q1']
+    return directionQuad['Q1']
   elif(x1 < x and y1 > y):
-     quad = directionQuad['Q2']
+    return directionQuad['Q2']
   elif(x1 < x and y1 < y):
-      quad = directionQuad['Q3']
+    return directionQuad['Q3']
   elif(x1 > x and y1 < y):
-      quad = directionQuad['Q4']
+    return directionQuad['Q4']
   else:
-    quad = ['up','right','down','left']
-  return quad
+    return ['up','right','down','left']
 
 def body(position,request):
   if (position in request['you']['body']):
@@ -62,6 +69,7 @@ def wall(position):
   if (position['x'] < 0 or position['x'] > 10 or position['y'] < 0 or position['y'] > 10):
     return True
   return False
+
 def enemiesBody(position,request):
   snakes = []
   listSnakes = request['board']['snakes'].copy()
