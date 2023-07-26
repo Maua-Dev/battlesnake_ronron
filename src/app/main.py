@@ -27,6 +27,7 @@ def move(request: dict):
   newHead = funcMoviments[moviment](request['you']['head'])
   while body(newHead,request):
     moviment = moviments[randint(0, 3)]
+    newHead = funcMoviments[moviment](request['you']['head'])
   return moviment
 
 
