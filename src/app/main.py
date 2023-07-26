@@ -89,7 +89,7 @@ def move(request: dict):
     "right" # x+1
   ]
   quadrante = searchFood(request['you']['head'], request['board']['food'],request['you']['body'][1])
-  moviments = quadrante
+  moviments = quadrante.copy()
   print(moviments)
   move = moviments.pop(randint(0, len(moviments)-1))
   newHead = funcMoviments[move](request['you']['head'])
