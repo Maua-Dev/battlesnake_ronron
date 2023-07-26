@@ -1,7 +1,7 @@
 from random import randint
 from fastapi import FastAPI
 from mangum import Mangum
-
+import math
 app = FastAPI()
 
 funcMoviments = {
@@ -10,6 +10,48 @@ funcMoviments = {
     "left": lambda head: {'x': head['x']-1,'y': head['y']}, # x-1
     "right": lambda head: {'x': head['x']+1,'y': head['y']} # x+1
 }
+directionQuad = {
+   'Q1': ['up','right'],
+    'Q2': ['up','left'],
+    'Q3': ['down','left'],
+    'Q4': ['down','right']
+}
+
+
+
+def searchFood(position, food_list):
+  menor_distancia = 0
+  foodTarget = food_list[0]
+  x, y = position['x'], position['y']
+  for ponto in food_list:
+      x2, y2 = ponto['x'], ponto['y']
+      distancia = math.sqrt((x2 - x)**2 + (y2 - y)**2)
+      if distancia < menor_distancia:
+          menor_distancia = distancia
+          foodTarget = ponto
+  x1,y1 = foodTarget['x'],foodTarget['y']
+
+  if(abs(x1 - x) == 1 or abs(y1 - y) == 1):
+    if(x1 - x == 1):
+      return ['right']
+    elif(x1 - x == -1):
+      return ['left']
+    elif(y1 - y == 1):
+      return ['up']
+    elif(y1 - y == -1):
+      return ['down']
+
+  if(x1 > x and y1 > y):
+    quad = directionQuad['Q1']
+  elif(x1 < x and y1 > y):
+     quad = directionQuad['Q2']
+  elif(x1 < x and y1 < y):
+      quad = directionQuad['Q3']
+  elif(x1 > x and y1 < y):
+      quad = directionQuad['Q4']
+  else:
+    quad = ['up','right','down','left']
+  return quad
 
 def body(position,request):
   if (position in request['you']['body']):
@@ -31,17 +73,18 @@ def enemiesBody(position,request):
   return False
 
 def move(request: dict):
-  moviments = {
-    0: "up", # y+1
-    1: "down", # y-1
-    2: "left", # x-1
-    3: "right" # x+1
-  }
-  move = moviments.pop(randint(0, 3), None)
+  moviments = [
+    "up", # y+1
+    "down", # y-1
+    "left", # x-1
+    "right" # x+1
+  ]
+  quadrante = searchFood(request['you']['head'], request['board']['food'])
+  moviments = quadrante
+  move = moviments.pop(randint(0, len(moviments)-1), None)
   newHead = funcMoviments[move](request['you']['head'])
   while len(moviments.keys()) > 0 and (body(newHead,request) or wall(newHead) or enemiesBody(newHead,request)):
-    index = list(moviments.keys())[randint(0, len(moviments.keys())-1)]
-    move = moviments.pop(index, None)
+    move = moviments.pop(randint(0, len(moviments)-1), None)
     if(move is None):
       move = 'up'
     newHead = funcMoviments[move](request['you']['head'])
