@@ -22,7 +22,8 @@ def wall(position):
   return False
 def enemiesBody(position,request):
   snakes = []
-  for snake in request['board']['snakes']:
+  listSnakes = request['board']['snakes'].copy()
+  for snake in listSnakes:
      snake['body'].pop()
      snakes = snakes + snake['body']
   if (position in snakes):
