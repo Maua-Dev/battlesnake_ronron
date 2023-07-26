@@ -11,10 +11,10 @@ moviments = {
     3: "right" # x+1
 }
 funcMoviments = {
-    0: lambda head: {'x': head['x'],'y': head['y']+1}, # y+1
-    1: lambda head: {'x': head['x'],'y': head['y']-1}, # y-1
-    2: lambda head: {'x': head['x']-1,'y': head['y']}, # x-1
-    3: lambda head: {'x': head['x']+1,'y': head['y']} # x+1
+    "up": lambda head: {'x': head['x'],'y': head['y']+1}, # y+1
+    "down": lambda head: {'x': head['x'],'y': head['y']-1}, # y-1
+    "left": lambda head: {'x': head['x']-1,'y': head['y']}, # x-1
+    "right": lambda head: {'x': head['x']+1,'y': head['y']} # x+1
 }
 # TODO: Implement my logic here to handle the requests from Battlesnake
 def body(position,request):
@@ -26,6 +26,7 @@ def wall(position):
   if (position['x'] < 0 or position['x'] > 10 or position['y'] < 0 or position['y'] > 10):
     return True
   return False
+
 def move(request: dict):
   moviment = moviments[randint(0, 3)]
   newHead = funcMoviments[moviment](request['you']['head'])
