@@ -81,10 +81,11 @@ def move(request: dict):
   ]
   quadrante = searchFood(request['you']['head'], request['board']['food'])
   moviments = quadrante
-  move = moviments.pop(randint(0, len(moviments)-1), None)
+  print(moviments)
+  move = moviments.pop(randint(0, len(moviments)-1))
   newHead = funcMoviments[move](request['you']['head'])
   while len(moviments) > 0 and (body(newHead,request) or wall(newHead) or enemiesBody(newHead,request)):
-    move = moviments.pop(randint(0, len(moviments)-1), None)
+    move = moviments.pop(randint(0, len(moviments)-1))
     if(move is None):
       move = 'up'
     newHead = funcMoviments[move](request['you']['head'])
