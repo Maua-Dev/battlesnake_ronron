@@ -83,7 +83,7 @@ def move(request: dict):
   moviments = quadrante
   move = moviments.pop(randint(0, len(moviments)-1), None)
   newHead = funcMoviments[move](request['you']['head'])
-  while len(moviments.keys()) > 0 and (body(newHead,request) or wall(newHead) or enemiesBody(newHead,request)):
+  while len(moviments) > 0 and (body(newHead,request) or wall(newHead) or enemiesBody(newHead,request)):
     move = moviments.pop(randint(0, len(moviments)-1), None)
     if(move is None):
       move = 'up'
