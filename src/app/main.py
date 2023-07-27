@@ -20,7 +20,7 @@ directionQuad = {
 
 
 def searchFood(position, food_list,blockPosition):
-  menor_distancia = 0
+  menor_distancia = 1000
   foodTarget = food_list[0]
   x, y = position['x'], position['y']
   blockX,blockY = blockPosition['x'],blockPosition['y']
